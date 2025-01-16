@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
@@ -97,5 +98,19 @@ class CategoryController extends Controller
         $categories->delete();
 
         return redirect()->route('category.index')->with(['success' => 'Data Berhasil Dihapus!']);
+    }
+
+    public function printCategory()
+    {
+        $category = Category::get();
+        $data = [
+            'title' => 'Welcome To fti.uniska-bjm.ac.id',
+            'date' => date('m/d/Y'),
+            'category' => $category
+        ];
+        $pdf = PDF::loadview('category.category_pdf', $data);
+        $pdf->setPaper('A4', 'landscape');
+        return $pdf->stream('Data Category.pdf', array("attachment"
+        => false));
     }
 }

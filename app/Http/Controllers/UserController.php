@@ -28,10 +28,10 @@ class UserController extends Controller
         return view('users', compact('users'));
     }
 
-    public function printPdf()
+    public function printUser()
     {
         $users = User::get();
-        $data = [
+        $data = [ 
             'title' => 'Welcome To fti.uniska-bjm.ac.id',
             'date' => date('m/d/Y'),
             'users' => $users

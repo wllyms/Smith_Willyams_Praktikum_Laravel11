@@ -6,12 +6,13 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 
 //import return type View
-use Illuminate\View\View;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 //import return type redirectResponse
-use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 //import Http Request
+use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
 
@@ -142,20 +143,33 @@ class ProductController extends Controller
     }
 
     public function destroy($id): RedirectResponse
-{
-    // Ambil data produk berdasarkan ID
-    $product = Product::findOrFail($id);
+    {
+        // Ambil data produk berdasarkan ID
+        $product = Product::findOrFail($id);
 
-    // Hapus gambar dari penyimpanan jika ada
-    if ($product->image) {
-        Storage::delete('public/products/' . $product->image);
+        // Hapus gambar dari penyimpanan jika ada
+        if ($product->image) {
+            Storage::delete('public/products/' . $product->image);
+        }
+
+        // Hapus data produk dari database
+        $product->delete();
+
+        // Redirect ke halaman index dengan pesan sukses
+        return redirect()->route('products.index')->with(['success' => 'Data berhasil dihapus!']);
     }
 
-    // Hapus data produk dari database
-    $product->delete();
-
-    // Redirect ke halaman index dengan pesan sukses
-    return redirect()->route('products.index')->with(['success' => 'Data berhasil dihapus!']);
-}
-
+    public function printProducts()
+    {
+        $products = Product::get();
+        $data = [
+            'title' => 'Welcome To fti.uniska-bjm.ac.id',
+            'date' => date('m/d/Y'),
+            'products' => $products
+        ];
+        $pdf = PDF::loadview('products.products_pdf', $data);
+        $pdf->setPaper('A4', 'landscape');
+        return $pdf->stream('Data Products.pdf', array("attachment"
+        => false));
+    }
 }

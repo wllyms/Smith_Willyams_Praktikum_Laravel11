@@ -8,46 +8,51 @@
         </ol>
         <div class="card mb-4">
             <div class="card-body">
-                <a href="{{ route('category.create') }}" class="btn btn-md btn-success mb-3">ADD CATEGORY</a>
-                <div class="row">
-                    <table class="table table-bordered data-table">
-                        <thead>
-                            <tr>
-                                <th>NO</th>
-                                <th scope="col">NAME</th>
-                                <th scope="col" style="width:20%">ACTIONS </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-
-                            @forelse ($categories as $index=>$category)
-                                <tr>
-                                    <td>{{ $index + 1 }}</td>
-                                    <td>{{ $category->name }}</td>
-                                    <td>
-                                        <form onsubmit="return confirm('Apakah Anda Yakin ?');"
-                                            action="{{ route('category.destroy', $category->id) }}" method="POST">
-                                            <a href="{{ route('category.edit', $category->id) }}"
-                                                class="btn btn-sm btn-primary">EDIT</a>
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-danger">HAPUS</button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            @empty
-                                <div class="alert alert-danger">
-                                    Data Category belum Tersedia.
-                                </div>
-                            @endforelse
-                        </tbody>
-                    </table>
-                    {{ $categories->links() }}
+                <div class="float-end">
+                    {{-- <a href="{{ route('exceluser') }}" class="btn btn-md btn-danger mb-3">Export User</a> --}}
+                    <a href="{{ route('PrintCategory') }}" class="btn btn-md btn-warning mb-3">Print Category</a>
                 </div>
+                <a href="{{ route('category.create') }}" class="btn btn-md btn-success mb-3">ADD CATEGORY</a>
             </div>
+        </div>
+        <div class="row">
+            <table class="table table-bordered data-table">
+                <thead>
+                    <tr>
+                        <th>NO</th>
+                        <th scope="col">NAME</th>
+                        <th scope="col" style="width:20%">ACTIONS </th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @forelse ($categories as $index=>$category)
+                        <tr>
+                            <td>{{ $index + 1 }}</td>
+                            <td>{{ $category->name }}</td>
+                            <td>
+                                <form onsubmit="return confirm('Apakah Anda Yakin ?');"
+                                    action="{{ route('category.destroy', $category->id) }}" method="POST">
+                                    <a href="{{ route('category.edit', $category->id) }}"
+                                        class="btn btn-sm btn-primary">EDIT</a>
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-sm btn-danger">HAPUS</button>
+                                </form>
+                            </td>
+                        </tr>
+                    @empty
+                        <div class="alert alert-danger">
+                            Data Category belum Tersedia.
+                        </div>
+                    @endforelse
+                </tbody>
+            </table>
+            {{ $categories->links() }}
         </div>
     </div>
 @endsection
+
 @section('alertload')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>

@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 
@@ -15,5 +17,11 @@ Route::resource('/satuan', \App\Http\Controllers\SatuanController::class);
 Route::get('dashboard', [UserController::class, 'dashboard']);
 Route::get('users', [UserController::class, 'users']);
 Route::get('registers', [UserController::class, 'index']);
-Route::get('printpdf', [UserController::class, 'printPDF'])->name('printuser');
+
+//PRINT
+Route::get('printuserpdf', [UserController::class, 'printUser'])->name('printuser');
+Route::get('printcategorypdf', [CategoryController::class, 'printCategory'])->name('PrintCategory');
+Route::get('printproductspdf', [ProductController::class, 'printProducts'])->name('PrintProducts');
+
+
 Route::get('printexcel', [UserController::class, 'printExcel'])->name('exceluser');
