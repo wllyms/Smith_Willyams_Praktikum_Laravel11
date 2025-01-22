@@ -1,13 +1,21 @@
 <?php
 
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CategoryController;
 
-Route::get('/', function () {
-    return view('dashboard');
-});
+
+Route::get('/', [LoginController::class, 'login'])->name('login');
+Route::post('/actionlogin', [LoginController::class, 'actionlogin'])->name('actionlogin');
+Route::get('/home', [HomeController::class, 'index'])->name('home')->middleware('auth');
+Route::get('/actionlogout', [LoginController::class, 'actionlogout'])->name('actionlogout');
+
+// Route::get('/', function () {
+//     return view('dashboard');
+// });
 
 Route::resource('/products', \App\Http\Controllers\ProductController::class);
 Route::resource('/category', \App\Http\Controllers\CategoryController::class);

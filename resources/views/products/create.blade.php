@@ -22,7 +22,7 @@
                                     <!-- error message untuk image -->
                                     @error('image')
                                         <div class="alert alert-danger mt2">
-                                            {{ $message }}
+                                            {{ $message }} 
                                         </div>
                                     @enderror
                                 </div>

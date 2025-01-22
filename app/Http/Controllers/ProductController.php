@@ -55,7 +55,7 @@ class ProductController extends Controller
             'image'          => 'required|image|mimes:jpeg,jpg,png|max: 2048',
             'title'          => 'required|min:5',
             'description'    => 'required|min:10',
-            'price'          => 'required|numeric',
+            'price'          => 'required|numeric', 
             'stock'          => 'required|numeric'
         ]);
 
